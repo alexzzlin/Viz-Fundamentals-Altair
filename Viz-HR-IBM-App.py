@@ -61,7 +61,7 @@ corr_lower_triangle = corr[mask.flatten()]
 correlations_chart = alt.Chart(corr_lower_triangle).mark_rect().encode(
     x=alt.X('var1:O', title=None),
     y=alt.Y('var2:O', title=None),
-    color='correlation:Q',
+    color=alt.Color('correlation:Q').scale(reverse=True), # scheme="lightgreyred"
     tooltip=['var1', 'var2', 'correlation']
 ).properties(
     #title='Lower Triangular Correlation Matrix',
