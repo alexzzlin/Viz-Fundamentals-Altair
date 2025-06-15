@@ -1,4 +1,5 @@
 # https://docs.spyder-ide.org/current/installation.html#install-standalone
+# https://altair-viz.github.io/user_guide/customization.html
 #!python -m venv viz-env # Take some minutes
 #!viz-env\Scripts\activate.bat
 #  Take some minutes
