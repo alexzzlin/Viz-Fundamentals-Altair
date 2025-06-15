@@ -21,7 +21,8 @@ import numpy as np
 import pandas as pd  # Import data processing library
 
 # Download the dataset at the same github directory as this python script
-hr_data = pd.read_csv("HR-Employee-Attrition.csv")
+#hr_data = pd.read_csv("HR-Employee-Attrition.csv")
+hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
 # List of quantitative data items
@@ -76,11 +77,11 @@ correlations_chart = alt.Chart(corr_lower_triangle).mark_rect().encode(
 hr_data_active = hr_data[hr_data["Attrition"] != "Yes"]
 hr_data_attrited = hr_data[(hr_data["Attrition"] == "Yes")]
 
-ht_age_dists = alt.Chart(hr_data).mark_bar().encode(
-    x=alt.X("Age:Q", bin=True, title='Binned-Age Values'),
-    y=alt.Y('count():Q', title='Employee Count'),
-    color="Attrition"
-)
+#ht_age_dists = alt.Chart(hr_data).mark_bar().encode(
+#    x=alt.X("Age:Q", bin=True, title='Binned-Age Values'),
+#    y=alt.Y('count():Q', title='Employee Count'),
+#    color="Attrition"
+#)
 
 #ht_age_dists
 
@@ -91,7 +92,7 @@ job_role_status_count_chart = alt.Chart(hr_data).mark_bar().encode(
     y=alt.Y("JobRole:N"),   # Count of records on the y-axis
     color="Attrition:N" # Color the bars by category
 ).properties(
-    title="Workforce Attrition Distribution by Job Role",
+    #title="Workforce Attrition Distribution by Job Role",
     width=300, height=300
 )
 
@@ -161,19 +162,19 @@ base = alt.Chart(hr_source).properties(height=300)
 #)
 
 ht_factor_q = base.mark_bar().encode(
-    x=alt.X(itemQF+":Q", bin=True, title='Binned Values in '+itemQF),
-    y=alt.Y('count()', title='Employee Counts in '+itemQF),
+    x=alt.X(itemQF+":Q", bin=True, title='Binned Values'),
+    y=alt.Y('count()', title='Employee Counts'),
     color=alt.Color('Attrition',  legend=None),
     tooltip='JobRole'
 ).interactive().properties(width=300, height=300)
 
-ht_factor_n = base.mark_bar().encode(
-    x=alt.X(itemNF+":N", bin=True, title='Binned Values in '+itemNF),
-    y=alt.Y('count()', title='Employee Counts in '+itemNF),
-    color=alt.Color('Attrition:N',
-                    legend=alt.Legend(orient='bottom')),
+ht_factor_n = base.mark_bar(size=20).encode(
+    x=alt.X(itemNF, title=None, axis=alt.Axis(tickMinStep=1)),
+    y=alt.Y('count()', title='Employee Counts'),
+    color=alt.Color('Attrition', legend=None),
+    #                legend=alt.Legend(orient='bottom')),
     tooltip='JobRole'
-).interactive().properties(width=300, height=400)
+).interactive().properties(width=300, height=300)
 
 # Layout (Content)
 left_column, right_column = st.columns([2, 1])
@@ -184,7 +185,7 @@ left_column, right_column = st.columns([2, 1])
 left_column.markdown('**Workforce Attrition Distribution by Job Role**')
 left_column.altair_chart(job_role_status_count_chart, use_container_width=True)
 
-right_column.markdown('**_' + itemQF + '_ Scale**')
+right_column.markdown('**Quan: _' + itemQF + '_**')
 right_column.altair_chart(ht_factor_q, use_container_width=True)
 
 
@@ -193,5 +194,5 @@ right_column.altair_chart(ht_factor_q, use_container_width=True)
 left_column.markdown('**Correlation Matrix (Lower Triangular)**')
 left_column.altair_chart(correlations_chart, use_container_width=True)
 
-right_column.markdown('**_' + itemNF + '_ Scale**')
+right_column.markdown('**Nominal: _' + itemNF + '_**')
 right_column.altair_chart(ht_factor_n, use_container_width=True)
