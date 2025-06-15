@@ -30,16 +30,16 @@ import pandas as pd
 # directory as your notebook
 # data= pd.read_csv("employee_data.csv")
 # hr_data= pd.read_csv("EmployeeRevisionDataset.csv")
-hr_data = pd.read_csv("https://github.com/alexzzlin/Viz-Fundamentals-Altair/HR-Employee-Attrition.csv")
+hr_data = pd.read_csv("https://github.com/alexzzlin/Viz-Fundamentals-Altair/tree/main/HR-Employee-Attrition.csv")
 #hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
 # List of quantitative data items
-item_list = [
-    col for col in df.columns if df[col].dtype in ['float64', 'int64']]
+#item_list = [
+#    col for col in df.columns if df[col].dtype in ['float64', 'int64']]
 
 # List of Origins
-origin_list = list(df['Origin'].unique())
+#origin_list = list(df['Origin'].unique())
 
 # Store the SPLOM
 # List of quantitative data items
@@ -152,9 +152,9 @@ job_role_emp_status_pct_chart = alt.Chart(hr_data).mark_bar().encode(
 # job_role_emp_status_pct_chart.display()
 
 # Create the column of YYYY 
-df['YYYY'] = df['Year'].apply(lambda x: x.year)
-min_year = df['YYYY'].min()
-max_year = df['YYYY'].max()
+#df['YYYY'] = df['Year'].apply(lambda x: x.year)
+#min_year = df['YYYY'].min()
+#max_year = df['YYYY'].max()
 
 min_dist = hr_data['DistanceFromHome'].min()
 max_dist = hr_data['DistanceFromHome'].max()
