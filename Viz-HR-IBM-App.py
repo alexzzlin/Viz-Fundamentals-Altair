@@ -21,8 +21,8 @@ import numpy as np
 import pandas as pd  # Import data processing library
 
 # Download the dataset at the same github directory as this python script
-#hr_data = pd.read_csv("HR-Employee-Attrition.csv")
-hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
+hr_data = pd.read_csv("HR-Employee-Attrition.csv")
+# hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
 # List of quantitative data items
