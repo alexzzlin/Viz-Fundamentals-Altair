@@ -18,19 +18,20 @@
 import altair as alt
 import streamlit as st
 import numpy as np
-from vega_datasets import data
+# from vega_datasets import data
 # Import our data processing library (note: you may have to install this!)
 import pandas as pd
 
 # Loading the cars dataset
-df = data.cars()
+#df = data.cars()
 
 # Let's use this to upload a sample dataset and show the start of the dataset
 # Note that you need to download the dataset and make sure it's in the same
 # directory as your notebook
 # data= pd.read_csv("employee_data.csv")
 # hr_data= pd.read_csv("EmployeeRevisionDataset.csv")
-hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
+hr_data = pd.read_csv("https://github.com/alexzzlin/Viz-Fundamentals-Altair/HR-Employee-Attrition.csv")
+#hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
 # List of quantitative data items
