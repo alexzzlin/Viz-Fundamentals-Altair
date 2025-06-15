@@ -30,7 +30,8 @@ import pandas as pd
 # directory as your notebook
 # data= pd.read_csv("employee_data.csv")
 # hr_data= pd.read_csv("EmployeeRevisionDataset.csv")
-hr_data = pd.read_csv("https://github.com/alexzzlin/Viz-Fundamentals-Altair/tree/main/HR-Employee-Attrition.csv")
+#hr_data = pd.read_csv("https://github.com/alexzzlin/Viz-Fundamentals-Altair/tree/main/HR-Employee-Attrition.csv")
+hr_data = pd.read_csv("HR-Employee-Attrition.csv")
 #hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
