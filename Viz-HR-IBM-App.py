@@ -71,7 +71,7 @@ correlations_chart = alt.Chart(corr_lower_triangle).mark_rect().encode(
     tooltip=['var1', 'var2', 'correlation']
 ).properties(
     #title='Lower Triangular Correlation Matrix',
-    width=300, height=275
+    width=300, height=300
 ).configure_axis(labelFontSize=13)
 #).mark_text().encode(
 #    text=alt.Text('correlation:Q', format='.2f'),  # Format to 2 decimal places
@@ -103,7 +103,7 @@ job_role_status_count_chart = alt.Chart(hr_data).mark_bar().encode(
 #    dx=3  # Nudges text to right so it doesn't appear on top of the bar
 ).properties(
     #title="Workforce Attrition Distribution by Job Role",
-    width=300, height=200
+    width=300, height=250
 )
 #).encode(
 #    text='count(Attrition):Q'
@@ -119,7 +119,7 @@ job_role_emp_status_pct_chart = alt.Chart(hr_data).mark_bar().encode(
     color='Attrition:N' # Color the bars by category
 ).properties(
     #title='Workforce Active vs. Attrition Distribution by Job Role',
-    width=300, height=200
+    width=300, height=250
 ).configure_axis(labelFontSize=13)
 
 #hr_data['attr_pc'] = hr_data.groupby(['JobRole'])['Attrition'].transform(lambda x: np.count(x)/sum(np.count(x)))
@@ -179,7 +179,7 @@ else:
     hr_source = hr_data[hr_data["Department"]==dept]
 
 # Content
-base = alt.Chart(hr_source).properties(height=200)
+base = alt.Chart(hr_source).properties(height=300)
 
 #bar = base.mark_bar().encode(
 #    x=alt.X('count(Origin):Q', title='Number of Records'),
@@ -204,7 +204,7 @@ ht_factor_n = base.mark_bar(size=20).encode(
     color=alt.Color('Attrition', legend=None),
     #                legend=alt.Legend(orient='bottom')),
     tooltip='Department'
-).interactive().properties(width=300, height=275)
+).interactive().properties(width=300, height=300)
 
 st.title("EDA Attrition-Correlated Factors")
 
