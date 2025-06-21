@@ -36,7 +36,7 @@ list_q_factors = ["Age", 'DailyRate', "DistanceFromHome", "YearsAtCompany",
 list_n_factors = ["EnvironmentSatisfaction", "RelationshipSatisfaction",
                   "JobSatisfaction"] #, "PerformanceRating"]
 
-list_factors = list_q_factors + list_n_factors
+# list_factors = list_q_factors + list_n_factors
 
 list_focus_factors = ["Age", 'DailyRate', "DistanceFromHome",
                       "EnvironmentSatisfaction", "RelationshipSatisfaction",
@@ -44,7 +44,7 @@ list_focus_factors = ["Age", 'DailyRate', "DistanceFromHome",
                       "YearsInCurrentRole", "YearsSinceLastPromotion"]
 
 # Construct & Compute Correlation matrix for quantitative factors
-hr_data_quan = hr_data[list_factors]
+hr_data_quan = hr_data[list_q_factors]
 corr = hr_data_quan.corr().stack().reset_index()
 corr.columns = ['var1', 'var2', 'correlation']
 # Sort by 'var1' then 'var2'
@@ -52,7 +52,7 @@ corr = corr.sort_values(by=['var1', 'var2'])
 # print(corr.shape[0])
 
 # Create a boolean mask for the upper triangle (keeping the diagonal, k=1)
-mask = np.triu(np.ones(len(list_factors))).astype(bool)
+mask = np.triu(np.ones(len(list_q_factors))).astype(bool)
 
 # mask.flatten().shape
 # Apply the mask to filter out the upper triangle data
@@ -199,7 +199,7 @@ ht_factor_n = base.mark_bar(size=20).encode(
     x=alt.X('count()', title='Employee Count %',
             stack='normalize',
             axis=alt.Axis(format='%', values=[0, 0.25, 0.5, 0.75, 1])),
-    y=alt.Y(itemNF, title='1-Least vs. 4-Most Satisfied',
+    y=alt.Y(itemNF, title='1-Low vs. 4-Very High',
             axis=alt.Axis(tickMinStep=1)),
     color=alt.Color('Attrition', legend=None),
     #                legend=alt.Legend(orient='bottom')),
@@ -225,7 +225,7 @@ right_column.altair_chart(ht_factor_q, use_container_width=True)
 
 #left_right_column = st.columns(2)
 
-left_column.markdown('**Correlation Matrix (Lower Triangular)**')
+left_column.markdown('**Factors Pairwise Correlation Matrix (Lower Triangular)**')
 left_column.altair_chart(correlations_chart, use_container_width=True)
 #                         ).properties(width=300, height=400)
 
