@@ -196,10 +196,9 @@ ht_factor_q = base.mark_bar().encode(
 ).interactive().properties(width=300)
 
 ht_factor_n = base.mark_bar(size=20).encode(
-    x=alt.X('count()', title='Employee Count %',
-            stack='normalize',
+    x=alt.X('count()', title='Employee Count %', stack='normalize',
             axis=alt.Axis(format='%', values=[0, 0.25, 0.5, 0.75, 1])),
-    y=alt.Y(itemNF, title='1-Low vs. 4-Very High',
+    y=alt.Y(itemNF, title='1-Low 2-Medium 3-High 4-Very High',
             axis=alt.Axis(tickMinStep=1)),
     color=alt.Color('Attrition', legend=None),
     #                legend=alt.Legend(orient='bottom')),
