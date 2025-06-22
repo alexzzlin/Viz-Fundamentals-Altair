@@ -26,7 +26,7 @@ import pandas as pd  # Import data processing library
 hr_data = pd.read_csv("HR-Employee-Attrition.csv")
 
 # For Testing Locally
-# hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
+#hr_data = pd.read_csv("D:/UCB-MSDS/Viz_Course/Project/HR-Employee-Attrition.csv")
 #hr_data.head()
 
 # List of quantitative data items
@@ -64,14 +64,14 @@ corr_lower_triangle = corr[mask.flatten()]
 # Create the heatmap
 correlations_chart = alt.Chart(corr_lower_triangle).mark_rect().encode(
     x=alt.X('var1:N', title=None,
-            axis=alt.Axis(labelAngle=-45)),
-    y=alt.Y('var2:N', title=None),
+            axis=alt.Axis(labelAngle=-35, tickMinStep=1)),
+    y=alt.Y('var2:N', title=None, axis=alt.Axis(tickMinStep=1)),
     color=alt.Color('correlation:Q', 
                     scale=alt.Scale(reverse=True)), # scheme="viridis", lightgreyred
     tooltip=['var1', 'var2', 'correlation']
 ).properties(
     #title='Lower Triangular Correlation Matrix',
-    width=350, height=350
+    height=350 #, width=350
 ).configure_axis(labelFontSize=13)
 #).mark_text().encode(
 #    text=alt.Text('correlation:Q', format='.2f'),  # Format to 2 decimal places
@@ -80,8 +80,8 @@ correlations_chart = alt.Chart(corr_lower_triangle).mark_rect().encode(
 
 # correlations_chart.display()
 
-hr_data_active = hr_data[hr_data["Attrition"] != "Yes"]
-hr_data_attrited = hr_data[(hr_data["Attrition"] == "Yes")]
+# hr_data_active = hr_data[hr_data["Attrition"] != "Yes"]
+# hr_data_attrited = hr_data[(hr_data["Attrition"] == "Yes")]
 
 #ht_age_dists = alt.Chart(hr_data).mark_bar().encode(
 #    x=alt.X("Age:Q", bin=True, title='Binned-Age Values'),
@@ -92,19 +92,19 @@ hr_data_attrited = hr_data[(hr_data["Attrition"] == "Yes")]
 #ht_age_dists
 
 # Create the countplot
-job_role_status_count_chart = alt.Chart(hr_data).mark_bar().encode(
-    x=alt.X("count(Attrition):Q", stack="zero",
-            title='Employee Count'),  # Categorical variable on the x-axis
-    y=alt.Y("JobRole:N"),   # Count of records on the y-axis
-    color="Attrition:N" # Color the bars by category
+#job_role_status_count_chart = alt.Chart(hr_data).mark_bar().encode(
+#   x=alt.X("count(Attrition):Q", stack="zero",
+#            title='Employee Count'),  # Categorical variable on the x-axis
+#    y=alt.Y("JobRole:N"),   # Count of records on the y-axis
+#    color="Attrition:N" # Color the bars by category
 #).mark_text(
 #    align='left',
 #    baseline='middle',
 #    dx=3  # Nudges text to right so it doesn't appear on top of the bar
-).properties(
+#).properties(
     #title="Workforce Attrition Distribution by Job Role",
-    width=350, height=275
-)
+#    width=350, height=275
+#)
 #).encode(
 #    text='count(Attrition):Q'
 
@@ -115,11 +115,11 @@ job_role_emp_status_pct_chart = alt.Chart(hr_data).mark_bar().encode(
     x=alt.X('count(Attrition):Q', stack='normalize',
             title=None, axis=alt.Axis(format='%',
                                       values=[0, 0.25, 0.5, 0.75, 1])),  # Categorical variable on the x-axis
-    y=alt.Y('JobRole:N'),   # Count of records on the y-axis
+    y=alt.Y('JobRole:N', axis=alt.Axis(tickMinStep=1)),   # Count of records on the y-axis
     color='Attrition:N' # Color the bars by category
 ).properties(
     #title='Workforce Active vs. Attrition Distribution by Job Role',
-    width=350, height=275
+    height=275 #, width=350
 ).configure_axis(labelFontSize=13)
 
 #hr_data['attr_pc'] = hr_data.groupby(['JobRole'])['Attrition'].transform(lambda x: np.count(x)/sum(np.count(x)))
@@ -140,7 +140,7 @@ min_dist = hr_data['DistanceFromHome'].min()
 max_dist = hr_data['DistanceFromHome'].max()
 charts_type = ["Stacked Bar Chart", "Histogram"]
 # List of Job Roles
-job_role_list = list(hr_data['JobRole'].unique())
+job_role_list = ["Overall"] + list(hr_data['JobRole'].unique())
 # List of Departments
 dept_list = ["Overall"] + list(hr_data['Department'].unique())
 # List of Education
@@ -162,21 +162,27 @@ st.sidebar.title("Dashboard - IBM HR")
 #    min_value=min_dist, max_value=max_dist,
 #    value=(min_dist, max_dist))
 
-#job_role = st.sidebar.multiselect('Job Role', job_role_list, default=job_role_list)
 dept = st.sidebar.selectbox('Department', dept_list, index=0)
 # edu = st.sidebar.multiselect('Education', edu_list, default=edu_list)
 #job_inv = st.sidebar.multiselect('Job Involvement', job_inv_list, default=job_inv_list)
+#job_role = st.sidebar.multiselect('Job Role', job_role_list, default=job_role_list)
 
 #st.markdown('###')
 # chartType = st.sidebar.selectbox('Chart Type', charts_type, index=0)
 itemQF = st.sidebar.selectbox('Quantative Factor', list_q_factors, index=0)
 itemNF = st.sidebar.selectbox('Nominal Factor', list_n_factors, index=0)
 # itemY = st.sidebar.selectbox('Factor 2', list_factors, index=1)
+job_role = st.sidebar.selectbox('Job Role', job_role_list, index=0)
 
 if dept=="Overall":
     hr_source = hr_data[hr_data['Department'].isin(dept_list)]
 else:
     hr_source = hr_data[hr_data["Department"]==dept]
+
+if job_role=="Overall":
+    hr_source = hr_data[hr_data['JobRole'].isin(job_role_list)]
+else:
+    hr_source = hr_data[hr_data["JobRole"]==job_role]
 
 # Content
 base = alt.Chart(hr_source).properties(height=275)
@@ -189,14 +195,17 @@ base = alt.Chart(hr_source).properties(height=275)
 
 ht_factor_q = base.mark_bar().encode(
     x=alt.X(itemQF+":Q", bin=True,
-            title='Binned Values ('+itemQF+')'),
+            title=['Binned Values ('+itemQF+')',
+                   'Job Role (' + job_role +')']),
     y=alt.Y('count()', title='Employee Counts'),
     color=alt.Color('Attrition',  legend=None),
     tooltip='Department'
-).interactive().properties(width=300)
+).interactive() #.properties(width=300)
 
 ht_factor_n = base.mark_bar(size=20).encode(
-    x=alt.X('count()', title='Employee Count %', stack='normalize',
+    x=alt.X('count()', title=['Employee Count %',
+                              'Job Role (' + job_role +')'],
+            stack='normalize',
             axis=alt.Axis(format='%', values=[0, 0.25, 0.5, 0.75, 1])),
     y=alt.Y(itemNF+":N", title='1-Low 2-Medium 3-High 4-Very High'),
             #axis=alt.Axis(tickMinStep=1),
@@ -204,7 +213,7 @@ ht_factor_n = base.mark_bar(size=20).encode(
     color=alt.Color('Attrition', legend=None),
     #                legend=alt.Legend(orient='bottom')),
     tooltip='Department'
-).interactive().properties(width=275, height=350)
+).interactive().properties(height=350) #, width=275
 
 st.title("EDA Attrition-Correlated Factors")
 
@@ -219,7 +228,7 @@ left_column.markdown('**Workforce Attrition Distribution by Job Role**')
 left_column.altair_chart(job_role_emp_status_pct_chart, use_container_width=True)
 
 
-right_column.markdown('**Quan: _' + itemQF + '_**')
+right_column.markdown('**Quan: _' + itemQF + '_** (' + job_role +')')
 right_column.altair_chart(ht_factor_q, use_container_width=True)
 
 
